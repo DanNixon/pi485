@@ -27,8 +27,8 @@ jobs:
         shell: devenv shell bash -- -e {0}
         run: treefmt --fail-on-change
 
-  demo-firmware:
-    name: Demo Firmware
+  firmware:
+    name: Firmware
     needs:
       - formatting
     runs-on: ubuntu-latest
@@ -45,11 +45,11 @@ jobs:
       - name: Clippy
         shell: devenv shell bash -- -e {0}
         run: |
-          cd ./demo-firmware
+          cd ./firmware/demo
           cargo clippy -- -D warnings
 
       - name: Build
         shell: devenv shell bash -- -e {0}
         run: |
-          cd ./demo-firmware
+          cd ./firmware/demo
           cargo build
