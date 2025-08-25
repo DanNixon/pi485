@@ -33,6 +33,12 @@ jobs:
       - formatting
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        firmware:
+          - demo
+          - usb-rs485
+
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v31
@@ -45,11 +51,11 @@ jobs:
       - name: Clippy
         shell: devenv shell bash -- -e {0}
         run: |
-          cd ./firmware/demo
+          cd ./firmware/${{ matrix.firmware }}
           cargo clippy -- -D warnings
 
       - name: Build
         shell: devenv shell bash -- -e {0}
         run: |
-          cd ./firmware/demo
+          cd ./firmware/${{ matrix.firmware }}
           cargo build
