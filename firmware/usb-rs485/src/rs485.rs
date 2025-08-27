@@ -1,5 +1,5 @@
 use crate::{Rs485Uart0Resources, Rs485Uart1Resources};
-use defmt::{debug, warn};
+use defmt::{debug, info, warn};
 use embassy_executor::Spawner;
 use embassy_rp::{
     bind_interrupts,
@@ -69,7 +69,9 @@ async fn rx_task(mut rx: BufferedUartRx) {
     loop {
         let n = rx.read(&mut buf).await.unwrap();
         debug!("Read {} bytes on UART", n);
+
         let data = &buf[..n];
+        info!("RS485->USB: {:x}", data);
 
         let vec = Vec::from_slice(data).unwrap();
         publisher.publish(vec).await;
