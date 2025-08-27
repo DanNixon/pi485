@@ -101,6 +101,8 @@ async fn echo<'d, T: Instance + 'd>(
                 debug!("Read {} bytes on UART", n);
 
                 let data = Vec::from_slice(&buf[..n]).unwrap();
+                info!("USB->RS485: {:x}", data);
+
                 publisher.publish(data).await;
             }
             Either::Second(msg) => match msg {
